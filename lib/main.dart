@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'new_task_list.dart'; // Import the external component
+import 'pending_pickup_list.dart'; // Import the pending pickup component
+import 'in_delivery_list.dart'; // Import the in delivery component
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +32,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   bool isOnline = true;
   bool isMenuOpen = false;
   late TabController _tabController;
@@ -60,6 +64,48 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     });
   }
 
+  Widget buildBottomBar() {
+    if (_tabController.index == 0) {
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('接单设置'),
+            ),
+            ElevatedButton(
+              onPressed: toggleStatus,
+              child: Text(isOnline ? '上线' : '下线'),
+            ),
+          ],
+        ),
+      );
+    } else if (_tabController.index == 1 || _tabController.index == 2) {
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('接单设置'),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('刷新列表'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +128,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             ),
             Text(isOnline ? '上线' : '下线中'),
             PopupMenuButton<String>(
-              icon: Icon(isMenuOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+              icon: Icon(
+                  isMenuOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down),
               onSelected: (String result) {
                 setState(() {
                   isOnline = result == '上线';
@@ -91,12 +138,12 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               },
               onCanceled: () {
                 setState(() {
-                  isMenuOpen = false);
+                  isMenuOpen = false;
                 });
               },
               onOpened: () {
                 setState(() {
-                  isMenuOpen = true);
+                  isMenuOpen = true;
                 });
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -176,11 +223,99 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       ),
       body: TabBarView(
         controller: _tabController,
-        children: const [
-          Center(child: Text('新任务的内容')),
-          Center(child: Text('待取货的内容')),
-          Center(child: Text('配送中的内容')),
-          Center(child: Text('路线的内容')),
+        children: [
+          Column(
+            children: [
+              const Expanded(
+                child: NewTaskList(), // Use the external component here
+              ),
+              Container(
+                color: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.build), // 扳手图标
+                      label: const Text('接单设置'),
+                    ),
+                    const SizedBox(width: 16.0), // 设置按钮之间的距离
+                    if (!isOnline)
+                      ElevatedButton(
+                        onPressed: toggleStatus,
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(150, 36), // 设置按钮的最小宽度和高度
+                        ),
+                        child: Text(isOnline ? '下线' : '上线'),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              const Expanded(
+                child: PendingPickupList(), // Use the external component here
+              ),
+              Container(
+                color: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.build), // 扳手图标
+                      label: const Text('接单设置'),
+                    ),
+                    const SizedBox(width: 16.0), // 设置按钮之间的距离
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 36), // 设置按钮的最小宽度和高度
+                      ),
+                      child: const Text('刷新列表'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              const Expanded(
+                child: InDeliveryList(), // Use the external component here
+              ),
+              Container(
+                color: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.build), // 扳手图标
+                      label: const Text('接单设置'),
+                    ),
+                    const SizedBox(width: 16.0), // 设置按钮之间的距离
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 36), // 设置按钮的最小宽度和高度
+                      ),
+                      child: const Text('刷新列表'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const Center(child: Text('路线的内容')),
         ],
       ),
     );
