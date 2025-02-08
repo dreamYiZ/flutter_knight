@@ -32,33 +32,36 @@ class NewTaskList extends StatelessWidget {
                 Text('货品信息：重量 2kg，件数 1件'),
                 const SizedBox(height: 8.0),
                 Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('确认接单吗？'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('取消'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  // Handle order acceptance
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('确认'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: Text('接单'),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8, // 设置按钮宽度为80%
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('确认接单吗？'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('取消'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    // Handle order acceptance
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('确认'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Text('接单'),
+                    ),
                   ),
                 ),
               ],
