@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'new_task_list.dart'; // Import the external component
 import 'pending_pickup_list.dart'; // Import the pending pickup component
 import 'in_delivery_list.dart'; // Import the in delivery component
+import 'refresh_button.dart'; // Import the in delivery component
+import 'messages_page.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +41,8 @@ class _MyHomePageState extends State<MyHomePage>
   late TabController _tabController;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  bool hasUnreadNotifications = true; // 模拟有未读消息
 
   @override
   void initState() {
@@ -94,10 +98,7 @@ class _MyHomePageState extends State<MyHomePage>
               onPressed: () {},
               child: const Text('接单设置'),
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('刷新列表'),
-            ),
+            RefreshButton(onPressed: () => {}),
           ],
         ),
       );
@@ -175,9 +176,46 @@ class _MyHomePageState extends State<MyHomePage>
           ],
         ),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {},
+          Stack(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.notifications),
+                onPressed: () {
+                  setState(() {
+                    hasUnreadNotifications = !hasUnreadNotifications; // 模拟点击后清除未读消息
+                  });
+                  
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MessagesPage()),
+                  );
+                },
+              ),
+              if (hasUnreadNotifications)
+                Positioned(
+                  right: 11,
+                  top: 11,
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 12,
+                      minHeight: 12,
+                    ),
+                    child: const Text(
+                      '',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 8,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+            ],
           ),
         ],
         bottom: TabBar(
@@ -250,6 +288,7 @@ class _MyHomePageState extends State<MyHomePage>
                         ),
                         child: Text(isOnline ? '下线' : '上线'),
                       ),
+                    if (isOnline) RefreshButton(onPressed: () => {}),
                   ],
                 ),
               ),
@@ -273,13 +312,7 @@ class _MyHomePageState extends State<MyHomePage>
                       label: const Text('接单设置'),
                     ),
                     const SizedBox(width: 16.0), // 设置按钮之间的距离
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(150, 36), // 设置按钮的最小宽度和高度
-                      ),
-                      child: const Text('刷新列表'),
-                    ),
+                    RefreshButton(onPressed: () => {}),
                   ],
                 ),
               ),
@@ -303,13 +336,7 @@ class _MyHomePageState extends State<MyHomePage>
                       label: const Text('接单设置'),
                     ),
                     const SizedBox(width: 16.0), // 设置按钮之间的距离
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(150, 36), // 设置按钮的最小宽度和高度
-                      ),
-                      child: const Text('刷新列表'),
-                    ),
+                    RefreshButton(onPressed: () => {}),
                   ],
                 ),
               ),
