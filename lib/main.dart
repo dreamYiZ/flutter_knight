@@ -3,7 +3,8 @@ import 'new_task_list.dart'; // Import the external component
 import 'pending_pickup_list.dart'; // Import the pending pickup component
 import 'in_delivery_list.dart'; // Import the in delivery component
 import 'refresh_button.dart'; // Import the in delivery component
-import 'messages_page.dart'; 
+import 'messages_page.dart';
+import 'route_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -182,12 +183,14 @@ class _MyHomePageState extends State<MyHomePage>
                 icon: const Icon(Icons.notifications),
                 onPressed: () {
                   setState(() {
-                    hasUnreadNotifications = !hasUnreadNotifications; // 模拟点击后清除未读消息
+                    hasUnreadNotifications =
+                        !hasUnreadNotifications; // 模拟点击后清除未读消息
                   });
-                  
-                   Navigator.push(
+
+                  Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MessagesPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const MessagesPage()),
                   );
                 },
               ),
@@ -342,7 +345,7 @@ class _MyHomePageState extends State<MyHomePage>
               ),
             ],
           ),
-          const Center(child: Text('路线的内容')),
+          const RoutePage(),
         ],
       ),
     );
