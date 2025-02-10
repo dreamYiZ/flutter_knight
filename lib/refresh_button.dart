@@ -60,7 +60,7 @@ class _RefreshButtonState extends State<RefreshButton>
                 )
               : const Icon(Icons.refresh),
           const SizedBox(width: 8),
-          const Text('刷新列表'),
+          Text(_isLoading ? '刷新中...' : '刷新列表'), // 根据加载状态更改按钮文字
         ],
       ),
     );
